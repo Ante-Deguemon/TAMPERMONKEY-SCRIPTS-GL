@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GL CAPITAL C6 Otimizado
 // @namespace    GLGM1
-// @version      1.0.12
+// @version      1.1.0
 // @description  Automatiza processos internos no sistema C6 Consig (ultra-rápido e leve)
 // @author       Guilherme
 // @match        https://c6.c6consig.com.br/*
