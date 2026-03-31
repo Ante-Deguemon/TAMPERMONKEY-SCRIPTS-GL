@@ -6,8 +6,8 @@
 // @author       Guilherme
 // @match        https://c6.c6consig.com.br/*
 // @grant        none
-// @updateURL    https://raw.githubusercontent.com/Ante-Deguemon/TAMPERMONKEY-SCRIPTS-GL/main/script.user.js
-// @downloadURL  https://raw.githubusercontent.com/Ante-Deguemon/TAMPERMONKEY-SCRIPTS-GL/main/script.user.js
+// @updateURL    https://raw.githubusercontent.com/Ante-Deguemon/TAMPERMONKEY-SCRIPTS-GL/main/GL CAPITAL C6 Otimizado.js
+// @downloadURL  https://raw.githubusercontent.com/Ante-Deguemon/TAMPERMONKEY-SCRIPTS-GL/main/GL CAPITAL C6 Otimizado.js
 // ==/UserScript==
 
 (function () {
