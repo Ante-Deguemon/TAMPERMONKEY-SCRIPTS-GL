@@ -1,0 +1,89 @@
+// ==UserScript==
+// @name         GL Capital — Consulta Manual
+// @namespace    http://tampermonkey.net/
+// @version      4.1
+// @match        https://s12.chatguru.app/*
+// @match        https://app.chatguru.com.br/*
+// @grant        GM_xmlhttpRequest
+// @grant        GM_getValue
+// @grant        GM_setValue
+// @connect      glcapital-credfacil.ngrok.pro
+// ==/UserScript==
+
+(function () {
+  'use strict';
+
+  // 1. Tenta buscar a matrícula salva no storage global do Tampermonkey
+  let MATRICULA = GM_getValue('GL_MATRICULA', null);
+
+  // 2. Se não existir, abre um prompt pedindo a matrícula
+  if (!MATRICULA) {
+    MATRICULA = prompt(
+        'Primeiro acesso detectado!\n\n' +
+        'Por favor, insira o seu código de matrícula.\n' +
+        '(Você pode pegar esse código no site da GL Capital)'
+    );
+
+    // 3. Valida se o usuário digitou algo
+    if (MATRICULA && MATRICULA.trim() !== '') {
+      MATRICULA = MATRICULA.trim();
+      GM_setValue('GL_MATRICULA', MATRICULA); // Salva para não pedir de novo
+    } else {
+      // Se ele cancelar ou deixar em branco, avisa e interrompe o script
+      alert('A matrícula é obrigatória para usar a Consulta Manual da GL Capital. Atualize a página para tentar novamente.');
+      return;
+    }
+  }
+
+  const GL_API = 'https://glcapital-credfacil.ngrok.pro/api/consulta/manual';
+
+  function notificar() {
+    GM_xmlhttpRequest({
+      method: 'POST',
+      url: GL_API,
+      headers: { 'Content-Type': 'application/json' },
+      data: JSON.stringify({ matricula: MATRICULA, link_chat: window.location.href }),
+      onload: (res) => console.log('[GL] notify-pending:', res.status),
+      onerror: (err) => console.warn('[GL] notify-pending erro:', err),
+    });
+  }
+
+    // ---------- s12.chatguru.app — F2 clica no botão + notifica ----------
+
+    if (location.hostname === 's12.chatguru.app') {
+        document.addEventListener('keydown', function (e) {
+            if (e.code !== 'F2') return;
+
+            // Seletor alterado para buscar qualquer botão que possua o atributo data-dialog-id
+            const selector = 'button[data-dialog-id]';
+
+            if (typeof $ !== 'undefined') {
+                const jqBtn = $(selector);
+                if (jqBtn.length > 0) {
+                    e.preventDefault();
+                    jqBtn.click();
+                    notificar();
+                    return;
+                }
+            }
+
+            const jsBtn = document.querySelector(selector);
+            if (jsBtn) {
+                e.preventDefault();
+                jsBtn.click();
+                notificar();
+            }
+        });
+    }
+
+  // ---------- app.chatguru.com.br — notifica o backend ----------
+
+  if (location.hostname === 'app.chatguru.com.br') {
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-gl-consultar], .btn-consultar');
+      if (btn) notificar();
+    });
+
+    window.__glNotificarPendente = notificar;
+  }
+})();
