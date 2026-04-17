@@ -1,13 +1,16 @@
 // ==UserScript==
 // @name         GL Capital — Consulta Manual
 // @namespace    http://tampermonkey.net/
-// @version      4.1
+// @version      4.3
+// @description  Consulta manual para GL Capital
 // @match        https://s12.chatguru.app/*
 // @match        https://app.chatguru.com.br/*
 // @grant        GM_xmlhttpRequest
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @connect      glcapital-credfacil.ngrok.pro
+// @updateURL    https://raw.githubusercontent.com/Ante-Deguemon/TAMPERMONKEY-SCRIPTS-GL/refs/heads/main/GL%20Capital%20%E2%80%94%20Consulta%20Manual
+// @downloadURL  https://raw.githubusercontent.com/Ante-Deguemon/TAMPERMONKEY-SCRIPTS-GL/refs/heads/main/GL%20Capital%20%E2%80%94%20Consulta%20Manual
 // ==/UserScript==
 
 (function () {
@@ -31,7 +34,7 @@
     } else {
       // Se ele cancelar ou deixar em branco, avisa e interrompe o script
       alert('A matrícula é obrigatória para usar a Consulta Manual da GL Capital. Atualize a página para tentar novamente.');
-      return;
+      return; 
     }
   }
 
@@ -48,33 +51,33 @@
     });
   }
 
-    // ---------- s12.chatguru.app — F2 clica no botão + notifica ----------
+  // ---------- s12.chatguru.app — F2 clica no botão + notifica ----------
 
-    if (location.hostname === 's12.chatguru.app') {
-        document.addEventListener('keydown', function (e) {
-            if (e.code !== 'F2') return;
+  if (location.hostname === 's12.chatguru.app') {
+    document.addEventListener('keydown', function (e) {
+      if (e.code !== 'F2') return;
 
-            // Seletor alterado para buscar qualquer botão que possua o atributo data-dialog-id
-            const selector = 'button[data-dialog-id]';
+      // Seletor alterado para buscar qualquer botão que possua o atributo data-dialog-id
+      const selector = 'button[data-dialog-id]';
 
-            if (typeof $ !== 'undefined') {
-                const jqBtn = $(selector);
-                if (jqBtn.length > 0) {
-                    e.preventDefault();
-                    jqBtn.click();
-                    notificar();
-                    return;
-                }
-            }
+      if (typeof $ !== 'undefined') {
+        const jqBtn = $(selector);
+        if (jqBtn.length > 0) {
+          e.preventDefault();
+          jqBtn.click();
+          notificar();
+          return;
+        }
+      }
 
-            const jsBtn = document.querySelector(selector);
-            if (jsBtn) {
-                e.preventDefault();
-                jsBtn.click();
-                notificar();
-            }
-        });
-    }
+      const jsBtn = document.querySelector(selector);
+      if (jsBtn) {
+        e.preventDefault();
+        jsBtn.click();
+        notificar();
+      }
+    });
+  }
 
   // ---------- app.chatguru.com.br — notifica o backend ----------
 
