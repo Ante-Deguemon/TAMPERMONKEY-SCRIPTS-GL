@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         GL Capital — Consulta Manual
 // @namespace    http://tampermonkey.net/
-// @version      4.3
-// @description  Consulta manual para GL Capital
+// @version      4.5
+// @description  Consulta manual para GL Capital com ID de Diálogo dinâmico
 // @match        https://s12.chatguru.app/*
 // @match        https://app.chatguru.com.br/*
 // @grant        GM_xmlhttpRequest
@@ -16,25 +16,31 @@
 (function () {
   'use strict';
 
-  // 1. Tenta buscar a matrícula salva no storage global do Tampermonkey
+  // --- BUSCA OU SOLICITA A MATRÍCULA ---
   let MATRICULA = GM_getValue('GL_MATRICULA', null);
 
-  // 2. Se não existir, abre um prompt pedindo a matrícula
   if (!MATRICULA) {
-    MATRICULA = prompt(
-        'Primeiro acesso detectado!\n\n' +
-        'Por favor, insira o seu código de matrícula.\n' +
-        '(Você pode pegar esse código no site da GL Capital)'
-    );
-
-    // 3. Valida se o usuário digitou algo
+    MATRICULA = prompt('Configuração Inicial:\nInsira o seu código de MATRÍCULA:');
     if (MATRICULA && MATRICULA.trim() !== '') {
       MATRICULA = MATRICULA.trim();
-      GM_setValue('GL_MATRICULA', MATRICULA); // Salva para não pedir de novo
+      GM_setValue('GL_MATRICULA', MATRICULA);
     } else {
-      // Se ele cancelar ou deixar em branco, avisa e interrompe o script
-      alert('A matrícula é obrigatória para usar a Consulta Manual da GL Capital. Atualize a página para tentar novamente.');
-      return; 
+      alert('A matrícula é obrigatória. Atualize a página.');
+      return;
+    }
+  }
+
+  // --- BUSCA OU SOLICITA O ID DO DIÁLOGO ---
+  let ID_DIALOGO = GM_getValue('ID_DIALOGO', null);
+
+  if (!ID_DIALOGO) {
+    ID_DIALOGO = prompt('Configuração Inicial:\nInsira o ID DO DIÁLOGO:');
+    if (ID_DIALOGO && ID_DIALOGO.trim() !== '') {
+      ID_DIALOGO = ID_DIALOGO.trim();
+      GM_setValue('ID_DIALOGO', ID_DIALOGO);
+    } else {
+      alert('O ID do Diálogo é obrigatório. Atualize a página.');
+      return;
     }
   }
 
@@ -57,8 +63,8 @@
     document.addEventListener('keydown', function (e) {
       if (e.code !== 'F2') return;
 
-      // Seletor alterado para buscar qualquer botão que possua o atributo data-dialog-id
-      const selector = 'button[data-dialog-id]';
+      // Seletor usando o ID salvo no storage
+      const selector = `button[data-dialog-id="${ID_DIALOGO}"]`;
 
       if (typeof $ !== 'undefined') {
         const jqBtn = $(selector);
