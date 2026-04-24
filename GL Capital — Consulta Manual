@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name         GL Capital — Consulta Manual
 // @namespace    http://tampermonkey.net/
-// @version      4.5
+// @version      4.6
 // @description  Consulta manual para GL Capital com ID de Diálogo dinâmico
 // @match        https://s12.chatguru.app/*
 // @match        https://app.chatguru.com.br/*
 // @grant        GM_xmlhttpRequest
 // @grant        GM_getValue
 // @grant        GM_setValue
-// @connect      glcapital-credfacil.ngrok.pro
+// @connect      painel.glcapital.ltd
 // @updateURL    https://raw.githubusercontent.com/Ante-Deguemon/TAMPERMONKEY-SCRIPTS-GL/refs/heads/main/GL%20Capital%20%E2%80%94%20Consulta%20Manual
 // @downloadURL  https://raw.githubusercontent.com/Ante-Deguemon/TAMPERMONKEY-SCRIPTS-GL/refs/heads/main/GL%20Capital%20%E2%80%94%20Consulta%20Manual
 // ==/UserScript==
