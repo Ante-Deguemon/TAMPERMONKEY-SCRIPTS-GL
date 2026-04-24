@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GL Capital — Consulta Manual
 // @namespace    http://tampermonkey.net/
-// @version      4.6
+// @version      4.7
 // @description  Consulta manual para GL Capital com ID de Diálogo dinâmico
 // @match        https://s12.chatguru.app/*
 // @match        https://app.chatguru.com.br/*
@@ -44,7 +44,7 @@
     }
   }
 
-  const GL_API = 'https://glcapital-credfacil.ngrok.pro/api/consulta/manual';
+  const GL_API = 'https://painel.glcapital.ltd/api/consulta/manual';
 
   function notificar() {
     GM_xmlhttpRequest({
